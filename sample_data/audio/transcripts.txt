@@ -1,0 +1,9 @@
+q_hotdesk_price	Hello. How much does a hot desk cost at Bongo Hive?
+q_location	Where are you located?
+q_founder	Who founded Bongo Hive?
+q_human	Can I speak to a real person please?
+q_optout	Please stop calling me. Don't call this number again.
+q_callback	My name is Mwila Banda and my number is 0 9 7 1 2 3 4 5 6 7. Please call me back tomorrow morning about coworking.
+q_bye	No, that's all. Thank you, bye.
+q_ai_assessment	Does the A I lab offer a free assessment for my business?
+voicemail_greeting	The subscriber you have called is not available. Please leave a message after the tone.

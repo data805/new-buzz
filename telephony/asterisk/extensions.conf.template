@@ -1,0 +1,37 @@
+; Dialplan connecting calls to the voice agent over AudioSocket.
+
+[globals]
+VA_HTTP=http://${VOICEAGENT_HOST}:${VOICEAGENT_HTTP_PORT}/api/telephony/asterisk/register?token=${ASTERISK_CALLBACK_TOKEN}
+VA_AUDIOSOCKET=${VOICEAGENT_HOST}:${AUDIOSOCKET_PORT}
+
+; ---------------------------------------------------------------- inbound
+[from-trunk]
+exten => _[+0-9a-zA-Z].,1,NoOp(Inbound call from ${CALLERID(num)} to ${EXTEN})
+ same => n,Answer()
+ same => n,Set(VA_UUID=${CURL(${VA_HTTP}&direction=inbound&caller=${URIENCODE(${CALLERID(num)})}&did=${URIENCODE(${EXTEN})}&channel=${URIENCODE(${CHANNEL})})})
+ same => n,GotoIf($["${VA_UUID}" = "BUSY"]?busy)
+ same => n,GotoIf($["${VA_UUID}" = "" | "${VA_UUID}" = "HANGUP"]?unavailable)
+ same => n,AudioSocket(${VA_UUID},${VA_AUDIOSOCKET})
+ same => n,Hangup()
+ same => n(busy),Playback(all-circuits-busy-now&pls-try-call-later)
+ same => n,Hangup(17)
+ same => n(unavailable),Playback(tt-allbusy)
+ same => n,Hangup()
+exten => s,1,Goto(from-trunk,inbound,1)
+
+; ---------------------------------------------------------------- outbound (originated over AMI)
+[outbound-agent]
+exten => s,1,NoOp(Outbound call answered: ${VA_CALL_ID})
+ same => n,AMD()
+ same => n,NoOp(AMD result ${AMDSTATUS} / ${AMDCAUSE})
+ same => n,Set(VA_REPLY=${CURL(${VA_HTTP}&direction=outbound&uuid=${VA_UUID}&amd=${AMDSTATUS}&channel=${URIENCODE(${CHANNEL})})})
+ same => n,GotoIf($["${VA_REPLY}" = "HANGUP" | "${VA_REPLY}" = ""]?done)
+ same => n,AudioSocket(${VA_UUID},${VA_AUDIOSOCKET})
+ same => n(done),Hangup()
+
+; ---------------------------------------------------------------- human transfer (AMI Redirect)
+[agent-transfer]
+exten => s,1,NoOp(Transferring to ${VA_TRANSFER_TARGET})
+ same => n,Dial(${VA_TRANSFER_TARGET},30)
+ same => n,Playback(sorry&vm-nobodyavail)
+ same => n,Hangup()

@@ -1,0 +1,151 @@
+{
+  "summary": {
+    "passed": 17,
+    "total": 17,
+    "accuracy": 1.0
+  },
+  "results": [
+    {
+      "question": "Where is BongoHive located?",
+      "answer": "BongoHive is located at ZEP-RE Business Park, Mass Media, Alick Nkhata Road, Lusaka 10101, Zambia.",
+      "pass": true,
+      "seconds": 2.3,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "What is the phone number for BongoHive?",
+      "answer": "The phone number for BongoHive is +260 211 845 600.",
+      "pass": true,
+      "seconds": 1.4,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "How much does a hot desk cost per month?",
+      "answer": "I'm sorry, I don't have confirmed pricing for that. I can take your name and number so the team can share the current details with you.",
+      "pass": true,
+      "seconds": 1.3,
+      "knowledge_hits": 3,
+      "blocked": {
+        "sentence": "The Hot Desk plan costs 300 kwacha per month.",
+        "reason": "unsupported amount 300"
+      }
+    },
+    {
+      "question": "What are the hot desk hours?",
+      "answer": "Hot Desk access is Monday to Friday, 8am to 5pm.",
+      "pass": true,
+      "seconds": 1.8,
+      "knowledge_hits": 3,
+      "blocked": null
+    },
+    {
+      "question": "Is parking available?",
+      "answer": "Yes, free on-site compound parking is available with no time limits.",
+      "pass": true,
+      "seconds": 1.7,
+      "knowledge_hits": 2,
+      "blocked": null
+    },
+    {
+      "question": "Is the AI assessment free?",
+      "answer": "Yes, the AI assessment is free.",
+      "pass": true,
+      "seconds": 6.9,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "Can I still apply for the AI for Business Accelerator 2026?",
+      "answer": "Applications for the AI for Business Accelerator 2026 closed on 24 July 2026. Would you like to know about future intakes?",
+      "pass": true,
+      "seconds": 16.6,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "How long is the accelerator programme?",
+      "answer": "The AI for Business Accelerator programme is a 12-week intensive programme.",
+      "pass": true,
+      "seconds": 11.3,
+      "knowledge_hits": 3,
+      "blocked": null
+    },
+    {
+      "question": "Do you run student tours?",
+      "answer": "Yes, student tours run on the last Friday of each month.",
+      "pass": true,
+      "seconds": 8.2,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "What is Idea Spring?",
+      "answer": "Idea Spring is BongoHive's platform for collecting, scoring, and rating ideas for both internal and external challenges.",
+      "pass": true,
+      "seconds": 7.3,
+      "knowledge_hits": 2,
+      "blocked": null
+    },
+    {
+      "question": "How long is the human-centred design course?",
+      "answer": "The human-centred design course is 7 weeks long.",
+      "pass": true,
+      "seconds": 6.3,
+      "knowledge_hits": 2,
+      "blocked": null
+    },
+    {
+      "question": "Who is the CEO of BongoHive?",
+      "answer": "The CEO of BongoHive is not mentioned in the provided knowledge base.",
+      "pass": true,
+      "seconds": 12.1,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "How much does a private office cost?",
+      "answer": "The Private Office plan at BongoHive includes a fully dedicated space, 24/7 building access, 8 meeting room hours per month, phone booths, and 30 free black and white prints per month. Pricing is not published; a team member can provide details.",
+      "pass": true,
+      "seconds": 27.5,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "What is the email address for the AI Lab?",
+      "answer": "I'm sorry, I don't have confirmed details on that. I can take your name and number so a member of the team can follow up with you.",
+      "pass": true,
+      "seconds": 9.0,
+      "knowledge_hits": 4,
+      "blocked": {
+        "sentence": "The email address for the AI Lab is ai@bongohive.co.zm.",
+        "reason": "unsupported email ai@bongohive.co.zm."
+      }
+    },
+    {
+      "question": "When is the next accelerator intake?",
+      "answer": "Applications for the AI for Business Accelerator 2026 have closed. For future intakes, you can contact us to be added to our email list for updates. Please provide your name and a phone number so we can reach out.",
+      "pass": true,
+      "seconds": 15.9,
+      "knowledge_hits": 2,
+      "blocked": null
+    },
+    {
+      "question": "Do you offer a discount for students?",
+      "answer": "BongoHive offers opportunities for students to pitch ideas, join challenges, and be connected to programmes. Discounts are not available for students at this time. Would you like to provide your details so a staff member can follow up with more information?",
+      "pass": true,
+      "seconds": 16.4,
+      "knowledge_hits": 4,
+      "blocked": null
+    },
+    {
+      "question": "Are you open on Saturdays?",
+      "answer": "BongoHive is closed on Saturdays. We are open Monday to Friday from 8 AM to 5 PM. How can I assist you further?",
+      "pass": true,
+      "seconds": 13.6,
+      "knowledge_hits": 1,
+      "blocked": null
+    }
+  ]
+}

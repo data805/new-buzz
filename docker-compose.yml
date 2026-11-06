@@ -1,0 +1,98 @@
+# BongoHive AI Voice Agent
+#
+#   docker compose up -d                              # app + postgres + ollama
+#   docker compose --profile telephony up -d          # + Asterisk (SIP trunk / AudioSocket)
+#   docker compose --profile automation up -d         # + n8n
+#   docker compose exec ollama ollama pull qwen2.5:3b-instruct
+#   docker compose run --rm app python /app/scripts/download_models.py
+#
+# On a GPU host, uncomment the `deploy` blocks (requires the NVIDIA container toolkit).
+
+name: voiceagent
+
+services:
+  app:
+    build: .
+    image: bongohive/voiceagent:latest
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://voiceagent:${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}@db:5432/voiceagent
+      LLM_BASE_URL: ${LLM_BASE_URL:-http://ollama:11434}
+      ASTERISK_AMI_HOST: host.docker.internal  # Asterisk runs with host networking
+      DATA_DIR: /app/data
+      MODELS_DIR: /app/models
+      RECORDINGS_DIR: /app/data/recordings
+      UPLOADS_DIR: /app/data/uploads
+    volumes:
+      - app_data:/app/data
+      - ./models:/app/models
+    ports:
+      - "127.0.0.1:8000:8000"   # put a TLS reverse proxy (Caddy/nginx) in front
+      - "127.0.0.1:9092:9092"   # AudioSocket, reached by Asterisk on the host network
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    depends_on:
+      db:
+        condition: service_healthy
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices: [{ driver: nvidia, count: 1, capabilities: [gpu] }]
+
+  db:
+    image: postgres:16.10-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: voiceagent
+      POSTGRES_USER: voiceagent
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U voiceagent"]
+      interval: 5s
+      retries: 10
+
+  ollama:
+    image: ollama/ollama:0.12.6
+    restart: unless-stopped
+    volumes:
+      - ollama_data:/root/.ollama
+    environment:
+      OLLAMA_KEEP_ALIVE: 30m
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices: [{ driver: nvidia, count: 1, capabilities: [gpu] }]
+
+  asterisk:
+    profiles: ["telephony"]
+    build: ./telephony/asterisk
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      VOICEAGENT_HOST: 127.0.0.1  # app ports are published on the host's loopback
+    # SIP + RTP need real UDP ports; host networking is simplest on Linux.
+    network_mode: host
+    depends_on: [app]
+
+  n8n:
+    profiles: ["automation"]
+    image: n8nio/n8n:1.116.2
+    restart: unless-stopped
+    environment:
+      N8N_HOST: ${N8N_HOST:-localhost}
+      N8N_PROTOCOL: ${N8N_PROTOCOL:-http}
+      GENERIC_TIMEZONE: Africa/Lusaka
+      N8N_SECURE_COOKIE: "false"
+    ports:
+      - "127.0.0.1:5678:5678"
+    volumes:
+      - n8n_data:/home/node/.n8n
+
+volumes:
+  app_data:
+  pg_data:
+  ollama_data:
+  n8n_data:

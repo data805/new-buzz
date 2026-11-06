@@ -1,0 +1,43 @@
+# Secrets and local config (only the template is committed)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Runtime data: databases, call recordings, uploads, demo state
+/data/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite3
+
+# Downloaded AI models (about 2 GB; fetch with scripts/download_models.py)
+/models/
+
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Node
+node_modules/
+frontend/dist/
+*.tsbuildinfo
+
+# Logs
+*.log
+
+# OS and editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+.claude/
